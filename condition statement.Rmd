@@ -1,0 +1,181 @@
+---
+title: "Conditional Statement"
+author: "Siddharth"
+date: "`r Sys.Date()`"
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Conditional Statements in R
+
+To write more sophisticated programs with R, you’ll need to control the flow and order of execution in your code. One fundamental way to do this is to make the execution of certain sections of code dependent on a condition.
+
+The if statement is the key to controlling exactly which operations are carried out in a given chunk of code.
+
+# Create an object to illustrate if condition
+
+```{r}
+myvec <- c(2.73,5.40,2.15,5.29,1.36,2.16,1.41,6.97,7.99,9.52)
+myvec
+mymat <- matrix(c(2,0,1,2,3,0,3,0,1,1),5,2)
+mymat
+```
+
+
+## Create if statement
+
+
+
+```{r}
+if(any((myvec-1)>9)||matrix(myvec,2,5)[2,1]<=6){
+  cat("Condition satisfied --\n")
+  new.myvec <- myvec
+  new.myvec[seq(1,9,2)] <- NA
+  mylist <- list(aa=new.myvec,bb=mymat+0.5)
+  cat("-- a list with",length(mylist),"members now exists...\n")
+  mylist
+}
+```
+
+## Check the condition of if statement
+
+Condition #1
+```{r}
+
+any((myvec-1)>9)
+
+```
+
+
+Condition #2
+```{r}
+
+matrix(myvec,2,5)[2,1]<=6
+
+```
+
+Evaluate condition of if statement
+```{r}
+
+any((myvec-1)>9)||matrix(myvec,2,5)[2,1]<=6
+
+```
+
+## Create if-else condition
+
+```{r}
+if(any((myvec-1)>9)||matrix(myvec,2,5)[2,1]<=2){
+  cat("Condition satisfied --\n")
+  new.myvec <- myvec
+  new.myvec[seq(1,9,2)] <- NA
+  mylist <- list(aa=new.myvec,bb=mymat+0.5)
+  cat("-- a list with",length(mylist),"members now exists.")
+}else{
+  cat("Condition is not satisfied --\n")
+  new.mymat <- t(mymat)
+  mylist <- list(aa=new.mymat,bb=rnorm(10))
+  cat("-- a new list with",length(mylist),"members now exists...\n")
+  mylist
+}
+
+```
+
+
+## Using if-else for elementwise checks
+
+```{r}
+
+if(c(TRUE,FALSE,FALSE,TRUE,FALSE)){}
+
+```
+
+
+```{r}
+
+x <- 5
+y <- -5:5
+x
+y
+
+```
+
+```{r}
+
+if(y>0){x<-x^3}
+
+```
+```{r}
+y==0
+
+```
+```{r}
+result <- ifelse(test=y==0, yes=NA,no=x/y)
+result
+```
+
+```{r}
+
+a <- 6
+mynumber <- 4
+
+if(a<=mynumber){
+  cat("First condition was TRUE\n")
+  a<-a^2
+  if(mynumber>3){
+    cat("Second Condition was TRUE")
+    b <- seq(1,a,length=mynumber)
+    
+  }else{
+    cat("Second condition was FALSE\n")
+    b<-a*mynumber
+  }
+}else{
+  cat("First condtion was FALSE\n")
+  a <- a-3.5
+  if(mynumber>=4){
+    cat("Second condition was TRUE")
+    b <- a^(3-mynumber)
+    
+  }else{
+    cat("second condition was FALSE")
+    b<- rep(a+mynumber,times=3)
+  }
+}
+a
+b
+
+```
+
+```{r}
+a <- 6
+mynumber <- 4
+
+if(a<=mynumber && mynumber>3){
+cat("Same as 'first condition TRUE and second TRUE'")
+a <- a^2
+b <- seq(1,a,length=mynumber)
+    } else if(a<=mynumber && mynumber<=3){
+       cat("Same as 'first condition TRUE and second FALSE'")
+       a <- a^2
+       b <- a*mynumber
+    } else if(mynumber>=4){
+         cat("Same as 'first condition FALSE and second TRUE'")
+         a <- a-3.5
+         b <- a^(3-mynumber)
+                  } else {
+                 cat("Same as 'first condition FALSE and second FALSE'")
+                  a <- a-3.5
+                  b <- rep(a+mynumber,times=3)
+                 }
+a
+b
+
+
+```
+
+   
