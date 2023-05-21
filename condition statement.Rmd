@@ -20,7 +20,7 @@ The if statement is the key to controlling exactly which operations are carried 
 # Create an object to illustrate if condition
 
 ```{r}
-myvec <- c(2.73,5.40,2.15,5.29,1.36,2.16,1.41,6.97,7.99,9.52)
+myvec <- c(2.70,5.40,2.10,5.29,1.36,2.16,1.41,6.97,7.99,9.52)
 myvec
 mymat <- matrix(c(2,0,1,2,3,0,3,0,1,1),5,2)
 mymat
