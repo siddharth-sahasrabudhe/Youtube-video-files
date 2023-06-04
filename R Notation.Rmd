@@ -1,0 +1,191 @@
+---
+output:
+  html_document: default
+  word_document: default
+---
+---
+title: "R Notation"
+author: "Siddharth"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+ ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Load the Data Frame
+
+To demonstrate the R notation, we will use *deck.csv* file, which contains 52 observations representing full deck of cards. Let's load the data set:
+
+```{r}
+getwd()
+setwd("E:/Training Modules/introduction to R/R Notation")
+getwd()
+card_deck <- read.table("deck.csv",sep=',',header=TRUE, stringsAsFactors = FALSE)
+```
+
+### Check first few rows of data set
+
+```{r}
+head(card_deck)
+```
+
+## Positive Integers
+
+R treats positive integers just as *ij* notation in linear algebra: `r`deck[i,j]\`, will return the value of the deck that is in *ith* row and *jth* column
+
+```{r}
+
+card_deck[1,1]
+
+```
+
+To extract more than one value use vector of positive integers
+
+```{r}
+
+card_deck[1,c(1,2,3)]
+
+```
+
+R's notation system is not limited to data frames. You can use the same syntax to select values in any R object.
+
+```{r}
+
+vec <- c(1,2,3,4,5,6)
+vec[1:3]
+
+```
+
+### Negative Integers
+
+R will return every index except the elements in the negative index.
+
+```{r}
+
+card_deck[-(2:52),  1:3]
+
+```
+
+R will return an error if you try to pair negative integer with positive integer in *same* index
+
+```{r}
+card_deck[c(1,-1),1]
+```
+
+### Zero
+
+What would happen if you used zero as an index?
+
+```{r}
+
+card_deck[0,0]
+```
+
+### Blank Spaces
+
+Useful for extracting entire row or column from a data frame
+
+```{r}
+
+card_deck[1,]
+```
+
+### Logical Values
+
+If you use a vector of TRUE and FALSE as index, R will match each TRUE and FALSE to a row/column in data frame
+
+```{r}
+
+card_deck[1, c(TRUE, TRUE, FALSE)]
+
+card_deck[c(FALSE,FALSE,TRUE),1:2]
+
+```
+
+### Names
+
+If the columns have names, then you can extract the columns of data frame using its name
+
+```{r}
+card_deck[ , "suit"]
+
+```
+
+
+### Dollar Sign and Double Brackets
+
+\$ symbol is used to extract values from data frame and lists. To select column from data frame, write the data frame's name and column name separated by \$.
+
+```{r}
+card_deck$value
+```
+
+```{r}
+mean(card_deck$value)
+median(card_deck$value)
+```
+
+sub-setting a list, \$ notation, single bracket and double brakcet
+
+```{r}
+lst <- list(number=c(1,2),logical=c(TRUE,FALSE),strings=c("a","b","c"))
+lst
+
+```
+
+## Sub-setting list - Using single bracket.
+
+for single bracket sub-setting, the result is smaller list within a list. This can cause problem, because many R functions do not work with the list. For. e.g. `sum(list[1])` will throw an error
+
+```{r}
+lst[1]
+sum(list[1])
+```
+
+## \$ notation in the list
+
+The above issue can be addressed by using \$ notation. When \$ notation is used, R will return selected values, with no list structure attached around them:
+
+```{r}
+lst$number
+sum(lst$number)
+```
+
+## Sub-setting list - Using double bracket.
+
+If the elements in the list do not have names, you can use two brackets to subset the list. This is similar to using dollar notation for sub-setting the list.
+
+```{r}
+lst[[1]]
+sum(lst[[1]])
+```
+
+# Atomic vector used in example
+```{r}
+myvec <- c(1,4,56,21,14)
+myvec
+
+myvec[-2]
+```
+
+# Data frame used in example
+```{r}
+my_dataframe <- data.frame(person=c("Siddharth","Aarya","Meghana","Omkar","Atharva"),
+age=c(42,40,17,14,1),
+sex=factor(c("M","F","F","M","M")))
+
+my_dataframe
+
+my_dataframe[1,c(TRUE,TRUE,FALSE)]
+```
+
+# List used in example
+```{r}
+my_list <- list(my_matrix=matrix(data=1:4,nrow=2,ncol=2),logical=c(T,F,T,T),strings="hello",numbers=c(10:14))
+my_list
+
+my_list[1]
+```
