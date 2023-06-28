@@ -1,0 +1,107 @@
+---
+title: "For loop"
+author: "Siddharth"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## For Loop
+
+## Looping via Value
+
+```{r}
+
+ myvec <- c(0.4,1.1,0.34,0.55)
+ for(i in myvec){
+ print(2*i)
+ }
+```
+
+## Looping via Index
+
+```{r}
+
+ myvec <- c(0.4,1.1,0.34,0.55)
+ for(i in 1:length(myvec)){
+ print(2*myvec[i])
+ }
+```
+
+## For loop example
+
+```{r}
+
+foo <- list(aa=c(3.4,1),bb=matrix(1:4,2,2),cc=matrix(c(T,T,F,T,F,F),3,2),
+dd="string here",ee=matrix(c("red","green","blue","yellow")))
+
+foo
+
+name <- names(foo)
+name
+
+is.mat <- rep(NA,length(foo))
+is.mat
+
+nr <- is.mat
+nc <- is.mat
+data.type <- is.mat
+
+for(i in 1:length(foo)){
+    member <- foo[[i]]
+        if(is.matrix(member)){
+           is.mat[i] <- "Yes"
+           nr[i] <- nrow(member)
+           nc[i] <- ncol(member)
+           data.type[i] <- class(as.vector(member))
+         } else {
+             is.mat[i] <- "No"
+           }
+         }
+
+bar <- data.frame(name,is.mat,nr,nc,data.type,stringsAsFactors=FALSE)
+bar
+
+```
+
+## Nesting of for loop
+
+```{r}
+
+x <- matrix(1:4,2,2,byrow = T)
+x
+
+for(i in seq_len(nrow(x))){
+  for(j in seq_len(ncol(x))){
+    print(x[i,j])
+  }
+}
+
+
+```
+
+```{r}
+loopvec1 <- 5:7
+loopvec1
+loopvec2 <- 9:6
+loopvec2
+
+my_matrix <- matrix(NA,length(loopvec1),length(loopvec2))
+my_matrix
+
+
+for(i in 1:length(loopvec1)){
+  for(j in 1:length(loopvec2)){
+    my_matrix[i,j] <- loopvec1[i]*loopvec2[j]
+    
+  }
+}
+my_matrix
+
+```
