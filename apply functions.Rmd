@@ -1,0 +1,98 @@
+---
+title: "Apply family functions"
+author: "Siddharth"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Apply Family functions
+
+This tutorial will explain how to use apply family of functions - apply(),lapply(),sapply() and tapply()
+These specified functions allows you to repetitively perform a specified functions across vector, lists, matrices and data frame.
+
+# The apply() function
+
+```{r apply function}
+# Create data frame
+Product_Sale <- data.frame(Product= c("Product A", "Product B", "Product C", "Product D", "Product E"),
+North = c(15, 10, 12, 9, 17),
+East = c(20, 18, 14, 15, 19),
+South= c(23, 24, 18, 17, 26),
+West= c(25,32,29,41,23))
+
+head(Product_Sale)
+
+# Analyse the data by rows
+apply(Product_Sale[,2:5], MARGIN = 1,FUN=mean)
+
+# Analyse the data by columns
+apply(Product_Sale[,2:5],MARGIN = 2, FUN = summary)
+
+# Use apply() on your own function
+
+car_data <- mtcars
+
+dim(car_data)
+head(car_data)
+
+stat_readout <- function(x){
+  
+  return(paste(x["cyl"], "cylinder car with",
+               x["mpg"], "mpg, weighing", x["wt"]*1000, "pounds"))
+}
+
+
+apply(mtcars, FUN=stat_readout, MARGIN=1)
+
+```
+
+# The lapply() function
+
+```{r lapply function}
+set.seed(125)
+
+Product_manufacturing <- list(Raw_Material = runif(10,min=4.8,max=5.2),
+                              Machining = runif(10,min=23,max=27),
+                              Assembly = runif(10, min = 10,max=13.5),
+                              testing=runif(10, min=2.5, max=3.4))
+
+Product_manufacturing
+
+# Use apply functions
+lapply(Product_manufacturing,mean)
+
+typeof(lapply(Product_manufacturing,mean))
+
+lapply(mtcars,max)
+
+```
+
+# The sapply() function 
+
+```{r}
+
+sapply(Avg_Manufacturing_time,mean)
+
+typeof(sapply(Avg_Manufacturing_time,mean))
+
+sapply(mtcars,max)
+
+```
+
+# The tapply() function
+
+```{r}
+
+product_return <- data.frame(Product_A_return = c(12,4,31,7,10,15,21),City=c("Mumbai","Pune","Mumbai","Delhi","Kanpur"
+                                                                              ,"Delhi","Pune"))
+head(product_return)
+
+tapply(product_return$Product_A_return,INDEX=product_return$City,sum)
+
+tapply(mtcars$hp,INDEX=mtcars$cyl,max)
+
+```
