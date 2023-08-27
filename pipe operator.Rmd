@@ -1,0 +1,77 @@
+---
+title: "Pipe operator"
+author: "Siddharth"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r }
+
+library(tidyverse)
+
+```
+
+# The pipe operator - %>%
+R is function programming language, so quite often you will end up in writing the nested function calls to create complex data frames. In order to address this concern, tidyverse has a very handy R Package, called magrittr, which lets you transform the complex nested function calls, into pipeline of operations that is easier to understand and to write. 
+
+The operators pipe their left-hand side values forward into expressions that appear on the right-hand side, i.e. one can replace f(x) with x %>% f(), where %>% is the (main) pipe-operator. 
+
+Basic piping:
+
+ x %>% f is equivalent to f(x)
+ x %>% f(y) is equivalent to f(x, y)
+ x %>% f %>% g %>% h is equivalent to h(g(f(x))). In this example, three operations are performed to arrive at the desired result, and they are written in the natural order, same as order of execution.
+
+# load mtcars data set
+```{r}
+
+head(mtcars)
+
+```
+
+Perform following operations:
+ 1. load mtcars data set, and group it by number of cylinders
+ 2. summarise the group by mean of Miles per gallon variable
+ 3. display the result in the descending order of the # of cylinders
+
+
+# Option 1: Store each step in the process sequentially:
+
+```{r pressure, echo=FALSE}
+result <- group_by(mtcars, cyl)
+result <- summarise(result, meanMPG = mean(mpg))
+result <- arrange(result,desc(cyl))
+result
+```
+
+# Option 2: Nesting the functions:
+
+```{r}
+
+result <- arrange(summarise(group_by(mtcars, cyl),meanMPG = mean(mpg)),desc(cyl))
+
+result
+```
+
+# Option 3: use pipe operator:
+
+```{r}
+
+result <- mtcars %>% 
+    group_by(cyl) %>% 
+    summarise(meanMPG = mean(mpg)) %>%
+    arrange(desc(cyl))
+
+result
+
+```
+
+If we read %>% as “then”, the code from the previous section is very easy to digest as a set of instructions in plain English:
+
+To get our result, take the mtcars data-frame, THEN
+Group its entries by number of cylinders, THEN
+Compute the mean miles-per-gallon of each group, THEN
+arrange the result in descending order
+
+
+
