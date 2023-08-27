@@ -1,0 +1,103 @@
+---
+title: "Select variables that match a pattern"
+author: "Siddharth"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+If your data contain lots of columns whose names share a similar structure, you can use partial matching by adding `starts_with()`, `ends_with()` or `contains()` in your `select()` statement.
+
+```{r}
+
+library(tidyverse)
+
+install.packages("nycflights13")
+
+library(nycflights13)
+data(package="nycflights13")
+
+```
+
+```{r}
+
+glimpse(weather)
+glimpse(flights)
+
+```
+
+These selection helpers match variables according to a given pattern.
+
+`starts_with()`: Starts with an exact prefix.
+
+`ends_with()`: Ends with an exact suffix.
+
+`contains()`: Contains a literal string.
+
+`matches()`: Matches a regular expression.
+
+`num_range()`: Matches a numerical range like x01, x02, x03.
+
+`starts_with()` selects all variables matching a prefix and `ends_with()` matches a suffix:
+
+```{r}
+
+flights %>% select(starts_with("dep"))
+
+flights %>% select(starts_with("dep")|starts_with("air") )
+
+flights %>% select(ends_with("time"))
+
+```
+
+You can supply multiple prefixes or suffixes. Note how the order of variables depends on the order of the suffixes and prefixes:
+
+```{r}
+
+flights %>% select(starts_with(c("dep","sched")))
+flights %>% select(ends_with(c("time","hour")))
+
+```
+
+`contains()` selects columns whose names contain a word:
+
+```{r}
+
+glimpse(planes)
+planes %>% select(contains("en"))
+
+glimpse(weather)
+weather %>% select(contains("_"))
+
+```
+
+`starts_with(), ends_with(),` and `contains()` do not use regular expressions. To select with a regexp use `matches()`:
+
+```{r}
+
+weather %>% select(matches("[wi]"))
+
+weather %>% select(matches("^w"))
+
+```
+
+To select a range, use `num_range()`.
+
+```{r}
+
+glimpse(billboard)
+?billboard
+
+billboard %>% select(artist,track,num_range("wk",1:5))
+
+```
+
+Selection helpers also work together with the `& operator` signifies the intersection and `| operator` signifies the union of two selections.
+
+```{r}
+
+flights %>% select(contains("_") & ends_with("time"))
+
+flights %>% select(starts_with("dep") | ends_with("time"))
+
+
+```
