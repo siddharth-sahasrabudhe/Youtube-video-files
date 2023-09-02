@@ -1,0 +1,94 @@
+---
+title: "dplyr filter() function to select the observations"
+author: "Siddharth"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+Load the library
+
+```{r}
+
+library(tidyverse)
+library(nycflights13)
+
+```
+
+Check first few observations
+
+```{r}
+
+glimpse(flights)
+
+```
+
+select all flights on Jan 1st
+
+```{r}
+
+flights %>%
+  filter(month==1,day==1)
+
+```
+
+R provides standard suit of Comparison operators:
+
+-   `>` greater than
+
+-   `>=` greater than equal to
+
+-   `<` less than
+
+-   `<=` less than equal to
+
+-   `!=` not equal
+
+-   *`==` equal*
+
+
+Find all the flights that departed in November or December
+
+    ```{r}
+
+    flights %>% 
+      filter(month==11 | month==12) %>%
+      count(month)
+
+# The above expression can also be written using %in% operator. `x %in% y` will 
+# select every row where x is one of the values in y    
+    
+flights %>%
+  filter(month %in% c(11,12))%>%
+  count(month)
+    
+    ```
+    
+Arrived more than 2 hours late, but did not leave late
+
+```{r}
+
+flights %>%
+  filter(arr_delay>120,!(dep_delay>0))
+
+```
+
+filter function excludes FALSE or missing values
+```{r}
+
+df <- tibble(x=c(1,NA,3))
+
+df %>%
+  filter(is.na(x)|x>1)
+
+```
+
+
+how many flights have missing dep_time
+```{r}
+sum(is.na(flights))
+
+flights %>%
+  filter(is.na(dep_time))%>%
+  count()
+
+```
